@@ -3,6 +3,8 @@ from django.db import models
 
 class Match(models.Model):
 
+    match_id = models.CharField(max_length=100, primary_key=True)
+    
     date_time = models.DateTimeField()
 
     league = models.CharField(max_length=100)
@@ -51,7 +53,8 @@ class Match(models.Model):
         return f"{self.team1name}' v {self.team2name} at {self.date_time}"
     def as_dict(self):
         return {
-            'id': self.id,
+            # 'id': self.id,
+            'match_id': self.match_id,
             'date_time': self.date_time,
             'league': self.league,
             'competition': self.competition,
