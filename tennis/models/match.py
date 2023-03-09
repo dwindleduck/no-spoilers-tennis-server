@@ -8,35 +8,38 @@ class Match(models.Model):
     league = models.CharField(max_length=100)
     competition = models.CharField(max_length=100)
 
+            ### update team names for doubles
     T1name = models.CharField(max_length=100)
     T2name = models.CharField(max_length=100)
 
     #T1 Overall Set Score
-    T1SetScore = models.CharField(max_length=100)
+    T1SetScore = models.CharField(max_length=100, default=0)
     #T2 Overall Set Score
-    T2SetScore = models.CharField(max_length=100)
+    T2SetScore = models.CharField(max_length=100, default=0)
     #T1 Set 1
-    T1Set1 = models.CharField(max_length=100)
-        ### add in tiebreak scores
+    T1Set1 = models.CharField(max_length=100, default=0)
+            ### add in tiebreak scores
     #T2 Set 1
-    T2Set1 = models.CharField(max_length=100)
+    T2Set1 = models.CharField(max_length=100, default=0)
     #T1 Set 2
-    T1Set2 = models.CharField(max_length=100)
+    T1Set2 = models.CharField(max_length=100, default=0)
     #T2 Set 2
-    T2Set2 = models.CharField(max_length=100)
+    T2Set2 = models.CharField(max_length=100, default=0)
     #T1 Set 3
-    T1Set3 = models.CharField(max_length=100)
+    T1Set3 = models.CharField(max_length=100, default=0)
     #T2 Set 3
-    T2Set3 = models.CharField(max_length=100)
+    T2Set3 = models.CharField(max_length=100, default=0)
     #T1 Set 4
-    T1Set4 = models.CharField(max_length=100)
+    T1Set4 = models.CharField(max_length=100, default=0)
     #T2 Set 4
-    T2Set4 = models.CharField(max_length=100)
+    T2Set4 = models.CharField(max_length=100, default=0)
     #T1 Set 5
-    T1Set5 = models.CharField(max_length=100)
+    T1Set5 = models.CharField(max_length=100, default=0)
     #T2 Set 5
-    T2Set5 = models.CharField(max_length=100)
+    T2Set5 = models.CharField(max_length=100, default=0)
 
+    # FT - full time, Canc. - canceled, S1 - set 1, S2 - set 2
+    status = models.CharField(max_length=100, default=0)
 
     winner = models.CharField(max_length=100, default=0)
 
@@ -66,6 +69,7 @@ class Match(models.Model):
             'T2Set4': self.T2Set4,
             'T1Set5': self.T1Set5,
             'T2Set5': self.T2Set5,
+            'status': self.status,
             'winner': self.winner,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
