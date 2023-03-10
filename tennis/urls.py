@@ -1,5 +1,6 @@
 from django.urls import path
 from .views.match_views import Matches, MatchDetail
+#RefreshMatches
 from .views.watched_matches_views import WatchedMatches, WatchedMatchDetail
 from .views.user_views import SignUp, SignIn, SignOut
 
@@ -16,6 +17,7 @@ urlpatterns = [
     path('watched_matches/<int:pk>/', WatchedMatchDetail.as_view(), name='watched_match_detail'),
     
     # LiveScore API calls
+    # path('refresh/list_by_date/', RefreshMatches.as_view(), name='refresh-by-date'),
     path('list_by_date/', list_by_date),
-    path('competition_detail', competition_detail)
+    # path('competition_detail', competition_detail)
 ]

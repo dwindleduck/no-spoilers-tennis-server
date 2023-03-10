@@ -27,6 +27,7 @@ class Matches(generics.ListCreateAPIView):
 
     def post(self, request):
         """Post request"""
+        print(request.data)
         serializer = MatchSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -86,4 +87,41 @@ class MatchDetail(generics.ListCreateAPIView):
 
 
 ### can I do the LiveScore_Requests here 
-### and call 
+### and call the two above class methods
+
+# class RefreshMatches(generics.ListCreateAPIView):
+#     """
+#     A view for creating and updating matches
+
+#     /refresh/
+#     """
+#     # queryset = ()
+#     serializer_class = MatchSerializer
+
+#     # def get(self, request):
+#     #     """Index request"""
+#     #     matches = Match.objects.all()
+#     #     # .filter(owner = request.user)
+#     #     serializer = MatchSerializer(matches, many=True)
+#     #     return Response(serializer.data)
+
+#     def post(self, request):
+#         """Post request"""
+#         print(request.data)
+#         serializer = MatchSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+#     def patch(self, request, pk):
+#         """Update Request"""
+#         match = get_object_or_404(Match, pk=pk)
+
+#         serializer = MatchSerializer(match, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
