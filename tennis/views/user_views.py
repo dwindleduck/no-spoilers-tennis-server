@@ -56,3 +56,16 @@ class SignOut(generics.DestroyAPIView):
         request.user.delete_token()
         logout(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+def check_token(request):
+
+    if request.user is not None:
+        if request.user.is_active:
+            #do we need to return the exp instead of the token?
+            return Response({'token': request.user.get_auth_token()})
+        else:
+            return Response({ 'msg': 'The account is inactive.' }, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({ 'msg': 'No one logged in.' }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
