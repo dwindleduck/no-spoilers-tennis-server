@@ -50,7 +50,7 @@ class Match(models.Model):
 
     def __str__(self):
         # This must return a string
-        return f"{self.team1name}' v {self.team2name} at {self.date_time}"
+        return f"{self.T1name}' v {self.T2name} at {self.date_time}"
     def as_dict(self):
         return {
             # 'id': self.id,
