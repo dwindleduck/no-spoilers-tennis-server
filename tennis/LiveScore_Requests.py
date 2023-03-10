@@ -87,7 +87,7 @@ def update_stored(req_data):
             
             # print(match)
 
-            #if the match is in the db
+            #if the match is not in the db
             if match == None:
                 print("match == None")
                 #post new match
