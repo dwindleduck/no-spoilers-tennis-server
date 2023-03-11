@@ -24,6 +24,7 @@ class Matches(generics.ListCreateAPIView):
         # .filter(owner = request.user)
         serializer = MatchSerializer(matches, many=True)
         return Response(serializer.data)
+    # , headers={"Access-Control-Allow-Credentials":True}
 
     def post(self, request):
         """Post request"""
