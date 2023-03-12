@@ -14,6 +14,8 @@ class SignUp(generics.CreateAPIView):
     serializer_class = UserRegisterSerializer
 
     def post(self, request):
+        print("backend signup request **************")
+        print(request.data)
         user = UserRegisterSerializer(data=request.data)
         if user.is_valid():
             created_user = UserSerializer(data=user.data)
