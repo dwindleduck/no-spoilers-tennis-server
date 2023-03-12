@@ -28,7 +28,6 @@ class Matches(generics.ListCreateAPIView):
 
     def post(self, request):
         """Post request"""
-        print(request.data)
         serializer = MatchSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
