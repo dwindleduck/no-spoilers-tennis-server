@@ -45,17 +45,6 @@ def update_stored(req_data):
             }
 
 
-            # if "Tr1" in match.keys():
-            #     print("One")
-
-            # if "Tr1" in match:
-            #     print("Two")
-            # if match.get("Tr1") == None:
-            #     print("None")
-            # elif match.get("Tr1") != None:
-            #     print(match.get("Tr1"))
-            
-
 
 
             if "Tr1" in match:
@@ -143,10 +132,24 @@ def update_stored(req_data):
 
 
 
-def list_by_date(request):
+def list_by_date(request, date_string):
+    
+    # if request.user not isAdmin
+        # raise PermissionDenied('You are not authorized to do that')
+    
+    
+    
     url = "https://livescore6.p.rapidapi.com/matches/v2/list-by-date"
    
-    querystring = {"Category":"tennis","Date":"20230309","Timezone":"-7"}
+    #get todays date.now() and format it for the querystring
+    # example date_strings: [2023][03][09]
+    # 20230309
+    # 20230310
+    # 20230314
+
+
+
+    querystring = {"Category":"tennis","Date":{date_string},"Timezone":"-7"}
 
     headers = {
         "X-RapidAPI-Key": "9b71ef6a10msh3f6d5e6bda5aa3ap1a62c2jsnf9ceb39aa5f4",
@@ -165,26 +168,6 @@ def list_by_date(request):
 
 
 
-
-
-def competition_detail(request):
-    # print(request)
-    # url = "https://livescore6.p.rapidapi.com/competitions/detail"
-
-    # need to get CompId from request
-    # querystring = {"CompId":{get CompId from request},"Timezone":"-7"}
-
-    # headers = {
-    #     "X-RapidAPI-Key": "9b71ef6a10msh3f6d5e6bda5aa3ap1a62c2jsnf9ceb39aa5f4",
-    #     "X-RapidAPI-Host": "livescore6.p.rapidapi.com"
-    # }
-
-    # response = requests.request("GET", url, headers=headers, params=querystring)
-    # print(response.text)
-    
-    # return JsonResponse(response.json(), safe=False)
-    print("Competition Detail Function Call")
-    return HttpResponse("Competition Detail Function Call")
 
 
 

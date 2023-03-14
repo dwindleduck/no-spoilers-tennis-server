@@ -32,8 +32,6 @@ class SignIn(generics.CreateAPIView):
 
     def post(self, request):
         creds = request.data
-        print(creds)
-
         user = authenticate(request, email=creds['email'], password=creds['password'])
 
         if user is not None:
