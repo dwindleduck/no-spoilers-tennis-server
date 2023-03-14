@@ -26,16 +26,10 @@ class WatchedMatches(generics.ListCreateAPIView):
 
     def post(self, request):
         """Post request"""
-        print("request.data *********")
-        print(request.data)
-        print(request.user.id)
         # add the user to the request data
         if not "user" in request.data:
             request.data["user"] = request.user.id
         
-        print(request.data)
-        print("request.data *********") 
-
         serializer = WatchedMatchSerializer(data=request.data)
         if serializer.is_valid():
             m = serializer.save()
@@ -57,8 +51,8 @@ class WatchedMatchDetail(generics.ListCreateAPIView):
         match = get_object_or_404(WatchedMatchCard, pk=pk)
 
         #does the user own the match?
-        # if request.user != match.owner:
-        #     raise PermissionDenied('You do no own this match')
+        if request.user != match.user:
+            raise PermissionDenied('You do no own this match')
 
         serializer = WatchedMatchReadSerializer(match)
         return Response(serializer.data)
@@ -67,20 +61,18 @@ class WatchedMatchDetail(generics.ListCreateAPIView):
         """Delete request"""
         match = get_object_or_404(WatchedMatchCard, pk=pk)
 
-        # if request.user != match.owner:
-        #     raise PermissionDenied('You do no own this match')
+        if request.user != match.user:
+            raise PermissionDenied('You do no own this match')
 
         match.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, pk):
         """Update Request"""
-
-        print(request)
         match = get_object_or_404(WatchedMatchCard, pk=pk)
 
-        # if request.user != match.owner:
-        #     raise PermissionDenied('You do no own this match')
+        if request.user != match.user:
+            raise PermissionDenied('You do no own this match')
 
         # #why do we need this step....
         if not "user" in request.data:

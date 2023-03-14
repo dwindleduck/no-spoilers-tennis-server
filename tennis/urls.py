@@ -19,6 +19,7 @@ urlpatterns = [
     path('watched_matches/<int:pk>/', WatchedMatchDetail.as_view(), name='watched_match_detail'),
     
     # LiveScore API call
-    path('list_by_date/', list_by_date),
+    # path('list_by_date/', list_by_date),
+    path('list_by_date/<int:date_string>', list_by_date),
    
 ]
