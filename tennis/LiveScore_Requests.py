@@ -137,7 +137,7 @@ def list_by_date(request):
    
     #get todays date.now() and format it for the querystring
 
-    querystring = {"Category":"tennis","Date":"20230309","Timezone":"-7"}
+    querystring = {"Category":"tennis","Date":"20230314","Timezone":"-7"}
 
     headers = {
         "X-RapidAPI-Key": "9b71ef6a10msh3f6d5e6bda5aa3ap1a62c2jsnf9ceb39aa5f4",
