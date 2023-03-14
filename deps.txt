@@ -6,3 +6,10 @@ pipenv==2023.2.18
 platformdirs==3.1.0
 virtualenv==20.20.0
 virtualenv-clone==0.5.7
+psycopg2==*
+djangorestframework==*
+requests==*
+python-dotenv==*
+django-core==*
+gunicorn==*
+dj-database-url==*
