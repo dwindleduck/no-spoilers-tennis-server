@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from .models.match import Match
-from .models.watched_match import WatchedMatch
+from .models.watched_match import WatchedMatchCard
 from .models.user import User
 
 class MatchSerializer(serializers.ModelSerializer):
@@ -11,15 +11,17 @@ class MatchSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class WatchedMatchSerializer(serializers.ModelSerializer):
+    # match = MatchSerializer()
     class Meta:
-        model = WatchedMatch
+        model = WatchedMatchCard
         fields = "__all__"
 
 class WatchedMatchReadSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
-    match = serializers.StringRelatedField()
+    # match = serializers.StringRelatedField()
+    match = MatchSerializer()
     class Meta:
-        model = WatchedMatch
+        model = WatchedMatchCard
         fields = "__all__"
 
 
