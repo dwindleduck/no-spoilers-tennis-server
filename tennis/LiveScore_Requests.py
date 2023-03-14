@@ -132,12 +132,24 @@ def update_stored(req_data):
 
 
 
-def list_by_date(request):
+def list_by_date(request, date_string):
+    
+    # if request.user not isAdmin
+        # raise PermissionDenied('You are not authorized to do that')
+    
+    
+    
     url = "https://livescore6.p.rapidapi.com/matches/v2/list-by-date"
    
     #get todays date.now() and format it for the querystring
+    # example date_strings: [2023][03][09]
+    # 20230309
+    # 20230310
+    # 20230314
 
-    querystring = {"Category":"tennis","Date":"20230314","Timezone":"-7"}
+
+
+    querystring = {"Category":"tennis","Date":{date_string},"Timezone":"-7"}
 
     headers = {
         "X-RapidAPI-Key": "9b71ef6a10msh3f6d5e6bda5aa3ap1a62c2jsnf9ceb39aa5f4",
