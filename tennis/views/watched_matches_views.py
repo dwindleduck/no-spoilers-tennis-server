@@ -20,8 +20,7 @@ class WatchedMatches(generics.ListCreateAPIView):
 
     def get(self, request):
         """Index request"""
-        watched_matches = WatchedMatchCard.objects.all()
-        # .filter(owner = request.user)
+        watched_matches = WatchedMatchCard.objects.all().filter(user = request.user.id)
         serializer = WatchedMatchReadSerializer(watched_matches, many=True)
         return Response(serializer.data)
 
@@ -76,17 +75,21 @@ class WatchedMatchDetail(generics.ListCreateAPIView):
 
     def patch(self, request, pk):
         """Update Request"""
+
+        print(request)
         match = get_object_or_404(WatchedMatchCard, pk=pk)
 
         # if request.user != match.owner:
         #     raise PermissionDenied('You do no own this match')
 
         # #why do we need this step....
-        # request.data['match']['owner'] = request.user.id
+        if not "user" in request.data:
+            request.data["user"] = request.user.id
 
         # Validate updates with serializer
         serializer = WatchedMatchSerializer(match, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -18,6 +18,7 @@ class WatchedMatchSerializer(serializers.ModelSerializer):
 
 class WatchedMatchReadSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
+    # user = UserSerializer()
     # match = serializers.StringRelatedField()
     match = MatchSerializer()
     class Meta:
