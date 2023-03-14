@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-class WatchedMatch(models.Model):
+class WatchedMatchCard(models.Model):
 
     user = models.ForeignKey(
         get_user_model(),
@@ -11,7 +11,6 @@ class WatchedMatch(models.Model):
         "Match",
         on_delete=models.CASCADE
     )
-
     spoil_results = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
