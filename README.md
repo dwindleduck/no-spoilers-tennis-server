@@ -1,8 +1,8 @@
 # No Spoilers - Server Repo
 Follow a tennis tournament and you decided if you see the results of any match. No Spoilers!
 
-[Deployed App]()
-[Front End Repo](https://github.com/dwindleduck/no-spoilers-tennis-client)
+- [Deployed App]()
+- [Front End Repo](https://github.com/dwindleduck/no-spoilers-tennis-client)
 
 ## Technologies Used
 ### Backend
