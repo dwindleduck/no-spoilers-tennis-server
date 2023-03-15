@@ -85,13 +85,13 @@ def update_stored(req_data):
                 serializer = MatchSerializer(data=match_to_process)
                 if serializer.is_valid():
                     serializer.save()
-                print(serializer.errors)
+                else: print(serializer.errors)
             else:
                 #patch existing match
                 serializer = MatchSerializer(found_match, data=match_to_process)
                 if serializer.is_valid():
                     serializer.save()
-                print(serializer.errors)
+                else: print(serializer.errors)
             
 
 def list_by_date(request, date_string):
