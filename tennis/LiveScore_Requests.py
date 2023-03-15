@@ -1,36 +1,19 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from rest_framework import status, generics
-from rest_framework.response import Response 
-
+import requests
 from datetime import datetime
-
 from .models.match import Match
 from .serializers import MatchSerializer
 
-import http.client
-import requests
-
-
-
 def update_stored(req_data):
-    print("Updating Stored Match Data")
     # for each league in the req_data
     for tournament in req_data["Stages"]:
         # for each match in the league
         for match in tournament["Events"]:
-            print("*****  MATCH   *******    *******   *********")
-            print(match)
             #format datetime
-            # date_time = datetime.fromtimestamp(match["Esd"])
             recieved_datetime = str(match["Esd"])
             date_object = datetime.strptime(recieved_datetime, "%Y%m%d%H%M%S")
             formated_date = date_object.strftime("%Y-%m-%dT%H:%M:%S")
-            # print(formated_date)
 
-            
             #assemble request object
             match_to_process = {
                 # map to LiveScore field names
@@ -44,9 +27,6 @@ def update_stored(req_data):
                 'T2name': match["T2"][0]["Nm"],
             }
 
-
-
-
             if "Tr1" in match:
                 match_to_process['T1SetScore'] = match["Tr1"]
 
@@ -54,7 +34,6 @@ def update_stored(req_data):
                 match_to_process['T2SetScore'] = match["Tr2"]
 
             #add tiebreak scores
-
             if "Tr1S1" in match:  
                 match_to_process['T1Set1'] = match["Tr1S1"]
             else: match_to_process['T1Set1'] = "0"
@@ -94,50 +73,31 @@ def update_stored(req_data):
                 match_to_process['winner'] = match["Ewt"]
             else: match_to_process['winner'] = "0"
             
-            print(match_to_process)
             
             try:
                 found_match = Match.objects.get(pk=match_to_process["match_id"])
             except Match.DoesNotExist:
                 found_match = None
-            
-            # print(match)
 
             #if the match is not in the db
             if found_match == None:
-                # print("match == None")
                 #post new match
-
-                #match_to_process is not a valid QueryDict
                 serializer = MatchSerializer(data=match_to_process)
                 if serializer.is_valid():
                     serializer.save()
-                    # print("Saved new match")
-                
                 print(serializer.errors)
-
             else:
-                # print("else")
                 #patch existing match
                 serializer = MatchSerializer(found_match, data=match_to_process)
                 if serializer.is_valid():
                     serializer.save()
-                    # print("Saved updated match")
                 print(serializer.errors)
             
-                
-
-
-
-
-
 
 def list_by_date(request, date_string):
     
     # if request.user not isAdmin
         # raise PermissionDenied('You are not authorized to do that')
-    
-    
     
     url = "https://livescore6.p.rapidapi.com/matches/v2/list-by-date"
    
@@ -146,8 +106,6 @@ def list_by_date(request, date_string):
     # 20230309
     # 20230310
     # 20230314
-
-
 
     querystring = {"Category":"tennis","Date":{date_string},"Timezone":"-7"}
 
@@ -160,14 +118,5 @@ def list_by_date(request, date_string):
 
     # use response data to update the stored match data
     update_stored(response.json())
-   
-    # print(response.text)
     
     return JsonResponse(response.json(), safe=False)
-
-
-
-
-
-
-
