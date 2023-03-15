@@ -1,1 +1,1 @@
-from .match_views import Matches, MatchDetail
+from .match_views import Matches
