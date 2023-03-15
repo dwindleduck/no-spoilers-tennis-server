@@ -11,7 +11,6 @@ class MatchSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class WatchedMatchSerializer(serializers.ModelSerializer):
-    # match = MatchSerializer()
     class Meta:
         model = WatchedMatchCard
         fields = "__all__"
