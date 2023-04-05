@@ -23,19 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "192n83yn0c2n30haeNQIn2qn@N"
-
-# SECRET_KEY = os.environ.get("SECRET_KEY", "192n83yn0c2n30haeNQIn2qn@N")
+SECRET_KEY = os.environ.get("SECRET_KEY", "NDqwepoi>^%$&GohhhGGGfn12m00asvd9n813ib&*^2hi2!@3")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = "RENDER" not in os.environ
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
-# RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-# if RENDER_EXTERNAL_HOSTNAME:
-#     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 
@@ -51,16 +49,15 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'rest_framework.authtoken',
-    # 'core',
     'corsheaders',
 
     'tennis',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -113,22 +110,13 @@ WSGI_APPLICATION = 'no_spoilers_auth.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dwindleduck/no_spoilers',
-        'USER': 'dwindleduck',
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': 'db.bit.io',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True
+    )
 }
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         conn_max_age=600,
-#         conn_health_checks=True
-#     )
-# }
 
 
 # Password validation
