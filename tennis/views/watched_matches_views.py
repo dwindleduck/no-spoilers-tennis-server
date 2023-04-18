@@ -11,7 +11,7 @@ from ..serializers import WatchedMatchSerializer, WatchedMatchReadSerializer
 # Create your views here.
 class WatchedMatches(generics.ListCreateAPIView):
     """
-    A view for creating and viewing all watched_matches
+    A view for creating and viewing watched_matches
 
     /watched_matches/
     """
@@ -19,10 +19,19 @@ class WatchedMatches(generics.ListCreateAPIView):
     serializer_class = WatchedMatchSerializer
 
     def get(self, request):
-        """Index request"""
+        """Index all"""
         watched_matches = WatchedMatchCard.objects.all().filter(user = request.user.id)
         serializer = WatchedMatchReadSerializer(watched_matches, many=True)
         return Response(serializer.data)
+
+    # def get(self, request, date):
+    #     """Index by date"""
+    #     watched_matches = WatchedMatchCard.objects.all().filter(user = request.user.id).filter(match.date_time = date)
+    #     serializer = WatchedMatchReadSerializer(watched_matches, many=True)
+    #     return Response(serializer.data)
+
+
+
 
     def post(self, request):
         """Post request"""

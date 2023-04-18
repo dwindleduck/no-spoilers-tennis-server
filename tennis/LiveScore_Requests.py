@@ -3,6 +3,7 @@ import requests
 from datetime import datetime
 from .models.match import Match
 from .serializers import MatchSerializer
+import os
 
 def update_stored(req_data):
     # for each league in the req_data
@@ -101,6 +102,9 @@ def list_by_date(request, date_string):
     
     url = "https://livescore6.p.rapidapi.com/matches/v2/list-by-date"
    
+    API_KEY = os.environ.get("API_KEY", "token")
+
+
     #get todays date.now() and format it for the querystring
     # example date_strings: [2023][03][09]
     # 20230309
@@ -110,7 +114,7 @@ def list_by_date(request, date_string):
     querystring = {"Category":"tennis","Date":{date_string},"Timezone":"-7"}
 
     headers = {
-        "X-RapidAPI-Key": "9b71ef6a10msh3f6d5e6bda5aa3ap1a62c2jsnf9ceb39aa5f4",
+        "X-RapidAPI-Key": API_KEY,
         "X-RapidAPI-Host": "livescore6.p.rapidapi.com"
     }
 
@@ -119,4 +123,23 @@ def list_by_date(request, date_string):
     # use response data to update the stored match data
     update_stored(response.json())
     
+    print("Made LiveScore Request for " + date_string)
+
     return JsonResponse(response.json(), safe=False)
+
+
+
+
+
+
+
+
+# write a management command to loop specified dates and call list_by_date
+
+
+
+
+# set a schedule for single calls to update most recent data
+
+
+
