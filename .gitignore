@@ -1,4 +1,3 @@
 .env
 
 no_spoilers_auth/settings/dev.py
-no_spoilers_auth/DELETE-settings.py
