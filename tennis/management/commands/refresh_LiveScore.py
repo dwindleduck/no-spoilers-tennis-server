@@ -30,7 +30,7 @@ def refresh_live_scores():
 
 
     # call list_by_date with current date
-    list_by_date(day)
+    # list_by_date(day)
     
     # set loop to call previous 4 days and next 3 days
     
@@ -63,7 +63,8 @@ class Command(BaseCommand):
     scheduler.add_job(
       refresh_live_scores,
     #   trigger=CronTrigger(hour="*/3"),  # Every 3 hours
-      trigger=CronTrigger(minute="*/5"),  # Every 30 seconds
+      trigger=CronTrigger(second="*/15"),  # Every 15 seconds
+    #   trigger=CronTrigger(minute="*/5"),  # Every 5 minutes
       id="refresh_live_scores",  # The `id` assigned to each job MUST be unique
       max_instances=1,
       replace_existing=True,
