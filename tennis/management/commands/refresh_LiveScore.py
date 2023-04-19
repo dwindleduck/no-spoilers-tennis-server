@@ -26,6 +26,9 @@ def refresh_live_scores():
     print("Executed refresh_live_scores command at ", day)
     print("Hour: ", hour)
     
+    print(DjangoJobExecution.objects.filter(max_age=604_800))
+
+
     # call list_by_date with current date
     list_by_date(day)
     
@@ -59,8 +62,8 @@ class Command(BaseCommand):
 
     scheduler.add_job(
       refresh_live_scores,
-      trigger=CronTrigger(hour="*/3"),  # Every 3 hours
-    #   trigger=CronTrigger(second="*/30"),  # Every 30 seconds
+    #   trigger=CronTrigger(hour="*/3"),  # Every 3 hours
+      trigger=CronTrigger(minute="*/5"),  # Every 30 seconds
       id="refresh_live_scores",  # The `id` assigned to each job MUST be unique
       max_instances=1,
       replace_existing=True,
