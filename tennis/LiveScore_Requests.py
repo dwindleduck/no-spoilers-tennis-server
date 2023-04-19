@@ -94,8 +94,8 @@ def update_stored(req_data):
                     serializer.save()
                 else: print(serializer.errors)
             
-
-def list_by_date(request, date_string):
+# def list_by_date(request, date_string):
+def list_by_date(date_string):
     
     # if request.user not isAdmin
         # raise PermissionDenied('You are not authorized to do that')
