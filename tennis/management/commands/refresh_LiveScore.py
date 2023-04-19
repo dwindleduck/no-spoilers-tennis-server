@@ -13,7 +13,7 @@ from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -26,13 +26,20 @@ def refresh_live_scores():
     print("Executed refresh_live_scores command at ", day)
     print("Hour: ", hour)
     
-    print(DjangoJobExecution.objects.filter(max_age=604_800))
-
-
-    # call list_by_date with current date
-    # list_by_date(day)
-    
-    # set loop to call previous 4 days and next 3 days
+    if hour == 3:
+        # loop to call previous 4 days through next 3 days
+        call_list = [now - timedelta(days=x) for x in range(-3, 5)]
+        for date in call_list:
+            formattedDate = date.strftime("%Y%m%d")
+            print(formattedDate)
+            # LiveScore_Request
+            # list_by_date(formattedDate)
+    else:
+        # LiveScore_Request
+        # list_by_date(day)
+        print(day)
+        
+ 
     
 
 
@@ -62,8 +69,8 @@ class Command(BaseCommand):
 
     scheduler.add_job(
       refresh_live_scores,
-    #   trigger=CronTrigger(hour="*/3"),  # Every 3 hours
-      trigger=CronTrigger(second="*/15"),  # Every 15 seconds
+      trigger=CronTrigger(hour="*/3"),  # Every 3 hours
+    #   trigger=CronTrigger(second="*/10"),  # Every 10 seconds
     #   trigger=CronTrigger(minute="*/5"),  # Every 5 minutes
       id="refresh_live_scores",  # The `id` assigned to each job MUST be unique
       max_instances=1,
