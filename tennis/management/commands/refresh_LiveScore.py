@@ -69,8 +69,8 @@ class Command(BaseCommand):
 
     scheduler.add_job(
       refresh_live_scores,
-      trigger=CronTrigger(hour="*/3"),  # Every 3 hours
-    #   trigger=CronTrigger(second="*/10"),  # Every 10 seconds
+    #   trigger=CronTrigger(hour="*/3"),  # Every 3 hours
+      trigger=CronTrigger(second="*/10"),  # Every 10 seconds
     #   trigger=CronTrigger(minute="*/5"),  # Every 5 minutes
       id="refresh_live_scores",  # The `id` assigned to each job MUST be unique
       max_instances=1,
