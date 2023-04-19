@@ -29,7 +29,7 @@ class Matches(generics.ListCreateAPIView):
 
     def get(self, request, date):
         """Index by date"""
-        print(date)
+        # print(date)
         formated_date = datetime.strptime(date, "%Y%m%d")
 
         day_min = datetime.combine(formated_date, datetime.today().time().min)
