@@ -12,29 +12,56 @@ from django.http import JsonResponse
 
 from datetime import datetime
 from ..models.watched_match import WatchedMatchCard
+from ..models.match import Match
 from ..serializers import WatchedMatchSerializer, WatchedMatchReadSerializer
-
+from ..serializers import MatchSerializer, MatchIdSerializer
 
 @api_view(['GET',])
 @renderer_classes([JSONRenderer])
 def create_and_get_cards(request, date):
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-    # get watch cards for this date
+    print("&&&&&&&&&&&&&& - create_and_get_cards - &&&&&&&&&&&&&&&")
+    
     formated_date = datetime.strptime(date, "%Y%m%d")
 
     day_min = datetime.combine(formated_date, datetime.today().time().min)
     formated_min = day_min.strftime("%Y-%m-%dT%H:%M:%S")
+    
     day_max = datetime.combine(formated_date, datetime.today().time().max)
     formated_max = day_max.strftime("%Y-%m-%dT%H:%M:%S")
 
+
+    # get matches for this date
+    matches = Match.objects.filter(date_time__range=(formated_min, formated_max))
+        
+    # for each match
+    for match in matches:
+        try:
+            found_card = WatchedMatchCard.objects.get(match=match.match_id)
+        except WatchedMatchCard.DoesNotExist:
+            found_card = None
+
+        #if the match is not in the db, create it
+        if found_card == None:
+            # add the user to the request data
+            if not "user" in request.data:
+                request.data["user"] = request.user.id
+
+            request.data["match"] = match.match_id
+            
+            serializer = WatchedMatchSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+            else: print(serializer.errors)
+
+
+    # get watch cards for this date
     watched_matches = WatchedMatchCard.objects.filter(user = request.user.id).filter(match__date_time__range=(formated_min, formated_max))
-    # watched_matches = WatchedMatchCard.objects.all().filter(user = request.user.id)
+
+    # return all watch cards for this date
     serializer = WatchedMatchReadSerializer(watched_matches, many=True)
     return Response(serializer.data)
 
-    # get match_ids for this date
 
-    # if a watch card does not exist for a given match_id, create it
-    # return all watch cards for this date
+
 
 

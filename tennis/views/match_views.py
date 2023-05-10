@@ -34,7 +34,7 @@ class Matches(generics.ListCreateAPIView):
 
         day_min = datetime.combine(formated_date, datetime.today().time().min)
         formated_min = day_min.strftime("%Y-%m-%dT%H:%M:%S")
-        # need to make this timezone aware...
+        # need to make this timezone aware... not working yet..
         min_with_timezone = day_min.replace(tzinfo=timezone.utc)
 
         day_max = datetime.combine(formated_date, datetime.today().time().max)
