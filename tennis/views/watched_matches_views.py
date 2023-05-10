@@ -4,10 +4,12 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
 from django.middleware.csrf import get_token
+from django.http import JsonResponse
 
 from datetime import datetime
 from ..models.watched_match import WatchedMatchCard
 from ..serializers import WatchedMatchSerializer, WatchedMatchReadSerializer
+
 
 # Create your views here.
 class WatchedMatches(generics.ListCreateAPIView):
@@ -64,15 +66,17 @@ class WatchedMatchDetail(generics.ListCreateAPIView):
     """
     serializer_class = WatchedMatchSerializer
 
-    def get(self, request, pk):
+    # def get(self, request, pk):
+    def get(self, request, match_id):
         """Show request"""
-        match = get_object_or_404(WatchedMatchCard, pk=pk)
+        # match = get_object_or_404(WatchedMatchCard, pk=pk)
+        card = get_object_or_404(WatchedMatchCard, match=match_id)
 
         #does the user own the match?
-        if request.user != match.user:
+        if request.user != card.user:
             raise PermissionDenied('You do no own this match')
 
-        serializer = WatchedMatchReadSerializer(match)
+        serializer = WatchedMatchReadSerializer(card)
         return Response(serializer.data)
 
     def delete(self, request, pk):
