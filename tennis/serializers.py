@@ -10,6 +10,11 @@ class MatchSerializer(serializers.ModelSerializer):
         model = Match
         fields = "__all__"
 
+class MatchIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Match
+        fields = ["match_id"]
+
 class WatchedMatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = WatchedMatchCard

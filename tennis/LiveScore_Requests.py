@@ -5,6 +5,8 @@ from .models.match import Match
 from .serializers import MatchSerializer
 import os
 
+
+# parse response data, 
 def update_stored(req_data):
     # for each league in the req_data
     for tournament in req_data["Stages"]:
