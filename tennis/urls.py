@@ -16,7 +16,7 @@ urlpatterns = [
     path('matches/<str:date>/', Matches.as_view(), name='matches_by_date'),
 
     path('watched_matches/', WatchedMatches.as_view(), name='watched_matches'),
-    path('watched_matches/<str:date>/', WatchedMatches.as_view(), name='watched_matches_by_date'),
+    # path('watched_matches/<str:date>/', WatchedMatches.as_view(), name='watched_matches_by_date'),
     
     path('watched_matches/<int:pk>/', WatchedMatchDetail.as_view(), name='watched_match_detail'),
     

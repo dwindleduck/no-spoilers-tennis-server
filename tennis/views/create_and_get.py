@@ -11,6 +11,7 @@ from django.middleware.csrf import get_token
 from django.http import JsonResponse
 
 from datetime import datetime
+from django.utils import timezone
 from ..models.watched_match import WatchedMatchCard
 from ..models.match import Match
 from ..serializers import WatchedMatchSerializer, WatchedMatchReadSerializer
