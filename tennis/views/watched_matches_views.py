@@ -21,30 +21,30 @@ class WatchedMatches(generics.ListCreateAPIView):
     queryset = ()
     serializer_class = WatchedMatchSerializer
 
-    # def get(self, request):
-    #     """Index all"""
-    #     watched_matches = WatchedMatchCard.objects.all().filter(user = request.user.id)
-    #     serializer = WatchedMatchReadSerializer(watched_matches, many=True)
-    #     return Response(serializer.data)
-
-    def get(self, request, date):
-        """Index by date"""
-
-        formated_date = datetime.strptime(date, "%Y%m%d")
-
-        day_min = datetime.combine(formated_date, datetime.today().time().min)
-        formated_min = day_min.strftime("%Y-%m-%dT%H:%M:%S")
-        day_max = datetime.combine(formated_date, datetime.today().time().max)
-        formated_max = day_max.strftime("%Y-%m-%dT%H:%M:%S")
-
-        watched_matches = WatchedMatchCard.objects.filter(user = request.user.id).filter(match__date_time__range=(formated_min, formated_max))
-        # watched_matches = WatchedMatchCard.objects.all().filter(user = request.user.id)
+    def get(self, request):
+        """Index all"""
+        watched_matches = WatchedMatchCard.objects.all().filter(user = request.user.id)
         serializer = WatchedMatchReadSerializer(watched_matches, many=True)
         return Response(serializer.data)
 
+    # def get(self, request, date):
+    #     """Index by date"""
+
+    #     formated_date = datetime.strptime(date, "%Y%m%d")
+
+    #     day_min = datetime.combine(formated_date, datetime.today().time().min)
+    #     formated_min = day_min.strftime("%Y-%m-%dT%H:%M:%S")
+    #     day_max = datetime.combine(formated_date, datetime.today().time().max)
+    #     formated_max = day_max.strftime("%Y-%m-%dT%H:%M:%S")
+
+    #     watched_matches = WatchedMatchCard.objects.filter(user = request.user.id).filter(match__date_time__range=(formated_min, formated_max))
+    #     # watched_matches = WatchedMatchCard.objects.all().filter(user = request.user.id)
+    #     serializer = WatchedMatchReadSerializer(watched_matches, many=True)
+    #     return Response(serializer.data)
 
 
-    def post(self, request, date):
+
+    def post(self, request):
         """Post request"""
         # add the user to the request data
         if not "user" in request.data:

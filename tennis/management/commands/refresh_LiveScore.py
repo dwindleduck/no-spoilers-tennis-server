@@ -14,15 +14,18 @@ from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
 
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
 
 def refresh_live_scores():
-    now = datetime.now()
+    # now = datetime.now()
+    now = timezone.now()
     day = now.strftime("%Y%m%d")
     hour = now.strftime("%H")
 
+    print("Now: ", now)
     print("Executed refresh_live_scores command at ", day)
     print("Hour: ", hour)
     
@@ -33,7 +36,7 @@ def refresh_live_scores():
             formattedDate = date.strftime("%Y%m%d")
             print(formattedDate)
             # LiveScore_Request
-            list_by_date(formattedDate)
+            # list_by_date(formattedDate)
     else:
         # LiveScore_Request
         # list_by_date(day)
