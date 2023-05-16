@@ -29,17 +29,17 @@ def refresh_live_scores():
     print("Executed refresh_live_scores command at ", day)
     print("Hour: ", hour)
     
-    if hour: # == "03"
+    if hour == "03":
         # loop to call previous 4 days through next 3 days
         call_list = [now - timedelta(days=x) for x in range(-3, 5)]
         for date in call_list:
             formattedDate = date.strftime("%Y%m%d")
             print(formattedDate)
             # LiveScore_Request
-            # list_by_date(formattedDate)
+            list_by_date(formattedDate)
     else:
         # LiveScore_Request
-        # list_by_date(day)
+        list_by_date(day)
         print(day)
     print("End of scheduled API call")    
         
@@ -75,7 +75,7 @@ class Command(BaseCommand):
       refresh_live_scores,
     #   trigger=CronTrigger(hour="*/1"),  # Every 3 hours
       # trigger=CronTrigger(second="*/10"),  # Every 10 seconds
-      trigger=CronTrigger(minute="*/2"),  # Every 2 minutes
+      trigger=CronTrigger(minute="*/1"),  # Every 1 minutes
       id="refresh_live_scores",  # The `id` assigned to each job MUST be unique
       max_instances=1,
       replace_existing=True,

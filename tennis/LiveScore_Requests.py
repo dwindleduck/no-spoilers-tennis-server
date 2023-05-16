@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 import requests
 from datetime import datetime
+from django.utils import timezone
 from .models.match import Match
 from .serializers import MatchSerializer
 import os
@@ -14,8 +15,15 @@ def update_stored(req_data):
         for match in tournament["Events"]:
             #format datetime
             recieved_datetime = str(match["Esd"])
+            # does this need to be timezone instead of datetime???
             date_object = datetime.strptime(recieved_datetime, "%Y%m%d%H%M%S")
+            
             formated_date = date_object.strftime("%Y-%m-%dT%H:%M:%S")
+
+            print(match["Esd"])
+            print(recieved_datetime)
+            print(date_object)
+            print(formated_date)
 
             #assemble request object
             match_to_process = {

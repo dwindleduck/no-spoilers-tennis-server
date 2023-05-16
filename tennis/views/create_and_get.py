@@ -11,7 +11,8 @@ from django.middleware.csrf import get_token
 from django.http import JsonResponse
 
 from datetime import datetime
-from django.utils import timezone
+# from django.utils import timezone
+from django.utils.timezone import make_aware
 from ..models.watched_match import WatchedMatchCard
 from ..models.match import Match
 from ..serializers import WatchedMatchSerializer, WatchedMatchReadSerializer
@@ -20,20 +21,28 @@ from ..serializers import MatchSerializer, MatchIdSerializer
 @api_view(['GET',])
 @renderer_classes([JSONRenderer])
 def create_and_get_cards(request, date):
-    print("&&&&&&&&&&&&&& - create_and_get_cards - &&&&&&&&&&&&&&&")
-    
+
+
     formated_date = datetime.strptime(date, "%Y%m%d")
+    # formated_date = make_aware(datetime.strptime(date, "%Y%m%d"))
+    # print("aware datetime")
+    # print(formated_date)
 
-    day_min = datetime.combine(formated_date, datetime.today().time().min)
-    formated_min = day_min.strftime("%Y-%m-%dT%H:%M:%S")
+    day_min = make_aware(datetime.combine(formated_date, datetime.today().time().min))
+    # formated_min = day_min.strftime("%Y-%m-%dT%H:%M:%S")
     
-    day_max = datetime.combine(formated_date, datetime.today().time().max)
-    formated_max = day_max.strftime("%Y-%m-%dT%H:%M:%S")
+    day_max = make_aware(datetime.combine(formated_date, datetime.today().time().max))
+    # formated_max = day_max.strftime("%Y-%m-%dT%H:%M:%S")
 
+    # print("max")
+    # print(day_max)
+    # print(formated_max)
 
     # get matches for this date
-    matches = Match.objects.filter(date_time__range=(formated_min, formated_max))
-        
+    # matches = Match.objects.filter(date_time__range=(formated_min, formated_max))
+    matches = Match.objects.filter(date_time__range=(day_min, day_max))
+    
+
     # for each match
     for match in matches:
         try:
@@ -56,7 +65,7 @@ def create_and_get_cards(request, date):
 
 
     # get watch cards for this date
-    watched_matches = WatchedMatchCard.objects.filter(user = request.user.id).filter(match__date_time__range=(formated_min, formated_max))
+    watched_matches = WatchedMatchCard.objects.filter(user = request.user.id).filter(match__date_time__range=(day_min, day_max))
 
     # return all watch cards for this date
     serializer = WatchedMatchReadSerializer(watched_matches, many=True)
