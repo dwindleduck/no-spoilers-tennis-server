@@ -20,10 +20,10 @@ def update_stored(req_data):
             
             formated_date = date_object.strftime("%Y-%m-%dT%H:%M:%S")
 
-            print(match["Esd"])
-            print(recieved_datetime)
-            print(date_object)
-            print(formated_date)
+            # print(match["Esd"])
+            # print(recieved_datetime)
+            # print(date_object)
+            # print(formated_date)
 
             #assemble request object
             match_to_process = {
@@ -93,12 +93,14 @@ def update_stored(req_data):
             #if the match is not in the db
             if found_match == None:
                 #post new match
+                print("Create New Match " + match_to_process.match_id)
                 serializer = MatchSerializer(data=match_to_process)
                 if serializer.is_valid():
                     serializer.save()
                 else: print(serializer.errors)
             else:
                 #patch existing match
+                print("Update Existing Match " + match_to_process.match_id)
                 serializer = MatchSerializer(found_match, data=match_to_process)
                 if serializer.is_valid():
                     serializer.save()
