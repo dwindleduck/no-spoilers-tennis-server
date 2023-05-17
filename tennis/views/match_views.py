@@ -5,7 +5,8 @@ from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
 from django.middleware.csrf import get_token
 
-from datetime import datetime, timezone
+from datetime import datetime
+from django.utils.timezone import make_aware
 from ..models.match import Match
 from ..serializers import MatchSerializer, MatchIdSerializer
 
@@ -32,26 +33,26 @@ class Matches(generics.ListCreateAPIView):
         # print(date)
         formated_date = datetime.strptime(date, "%Y%m%d")
 
-        day_min = datetime.combine(formated_date, datetime.today().time().min)
-        formated_min = day_min.strftime("%Y-%m-%dT%H:%M:%S")
+        day_min = make_aware(datetime.combine(formated_date, datetime.today().time().min))
+        # formated_min = day_min.strftime("%Y-%m-%dT%H:%M:%S")
         # need to make this timezone aware... not working yet..
-        min_with_timezone = day_min.replace(tzinfo=timezone.utc)
+        # min_with_timezone = day_min.replace(tzinfo=timezone.utc)
 
-        day_max = datetime.combine(formated_date, datetime.today().time().max)
-        max_with_timezone = day_max.replace(tzinfo=timezone.utc)
+        day_max = make_aware(datetime.combine(formated_date, datetime.today().time().max))
+        # max_with_timezone = day_max.replace(tzinfo=timezone.utc)
 
-        formated_max = day_max.strftime("%Y-%m-%dT%H:%M:%S")
+        # formated_max = day_max.strftime("%Y-%m-%dT%H:%M:%S")
         # formated_max = formated_max.replace(tzinfo=timezone.utc)
-        print("******************")
-        print(formated_date)
-        # print(day_max)
-        # print(max_with_timezone)
-        # print(formated_max)
-        print("******************")
+        # print("******************")
+        # print(formated_date)
+        # # print(day_max)
+        # # print(max_with_timezone)
+        # # print(formated_max)
+        # print("******************")
 
 
         # matches = Match.objects.all()
         # matches = Match.objects.filter(date_time__range=(formated_min, formated_max))
-        matches = Match.objects.filter(date_time__range=(min_with_timezone, max_with_timezone))
+        matches = Match.objects.filter(date_time__range=(day_min, day_max))
         serializer = MatchIdSerializer(matches, many=True)
         return Response(serializer.data)
