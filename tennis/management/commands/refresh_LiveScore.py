@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 def refresh_live_scores():
     # now = datetime.now()
+    # this is in GMT
     now = timezone.now()
     day = now.strftime("%Y%m%d")
     hour = now.strftime("%H")
@@ -33,7 +34,7 @@ def refresh_live_scores():
     # 6 more single day calls every 3 hours
     # 16 total API calls per day
     
-    if hour == "00" or "12":
+    if hour == "00" or hour == "12":
         # loop to call previous 1 days through next 3 days
         call_list = [now - timedelta(days=x) for x in range(-3, 2)]
         for date in call_list:
@@ -78,9 +79,9 @@ class Command(BaseCommand):
 
     scheduler.add_job(
       refresh_live_scores,
-      trigger=CronTrigger(hour="*/3"),  # Every 3 hours
+      # trigger=CronTrigger(hour="*/3"),  # Every 3 hours
       # trigger=CronTrigger(second="*/10"),  # Every 10 seconds
-      # trigger=CronTrigger(minute="*/2"),  # Every 2 minutes
+      trigger=CronTrigger(minute="*/2"),  # Every 2 minutes
       id="refresh_live_scores",  # The `id` assigned to each job MUST be unique
       max_instances=1,
       replace_existing=True,

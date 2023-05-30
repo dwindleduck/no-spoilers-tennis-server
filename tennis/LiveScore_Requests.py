@@ -15,6 +15,8 @@ def update_stored(req_data):
         for match in tournament["Events"]:
             #format datetime
             recieved_datetime = str(match["Esd"])
+            
+            # ################################################
             # does this need to be timezone instead of datetime???
             date_object = datetime.strptime(recieved_datetime, "%Y%m%d%H%M%S")
             
@@ -93,14 +95,14 @@ def update_stored(req_data):
             #if the match is not in the db
             if found_match == None:
                 #post new match
-                print("Create New Match " + match_to_process.match_id)
+                print("Create New Match " + match_to_process["match_id"])
                 serializer = MatchSerializer(data=match_to_process)
                 if serializer.is_valid():
                     serializer.save()
                 else: print(serializer.errors)
             else:
                 #patch existing match
-                print("Update Existing Match " + match_to_process.match_id)
+                print("Update Existing Match " + match_to_process["match_id"])
                 serializer = MatchSerializer(found_match, data=match_to_process)
                 if serializer.is_valid():
                     serializer.save()
@@ -123,7 +125,7 @@ def list_by_date(date_string):
     # 20230310
     # 20230314
 
-    querystring = {"Category":"tennis","Date":{date_string},"Timezone":"-7"}
+    querystring = {"Category":"tennis","Date":{date_string},"Timezone":"0"}
 
     headers = {
         "X-RapidAPI-Key": API_KEY,
