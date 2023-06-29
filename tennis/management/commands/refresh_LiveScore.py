@@ -36,12 +36,12 @@ def refresh_live_scores():
     
     if hour == "00" or hour == "12":
         # loop to call previous 1 days through next 3 days
-        call_list = [now - timedelta(days=x) for x in range(-3, 2)]
-        for date in call_list:
-            formattedDate = date.strftime("%Y%m%d")
-            print(formattedDate)
-            # LiveScore_Request
-            list_by_date(formattedDate)
+      call_list = [now - timedelta(days=x) for x in range(-3, 2)]
+      for date in call_list:
+          formattedDate = date.strftime("%Y%m%d")
+          print(formattedDate)
+          # LiveScore_Request
+          list_by_date(formattedDate)
     else:
         print(day)
         # LiveScore_Request
@@ -79,9 +79,9 @@ class Command(BaseCommand):
 
     scheduler.add_job(
       refresh_live_scores,
-      # trigger=CronTrigger(hour="*/3"),  # Every 3 hours
+      trigger=CronTrigger(hour="*/3"),  # Every 3 hours
       # trigger=CronTrigger(second="*/10"),  # Every 10 seconds
-      trigger=CronTrigger(minute="*/2"),  # Every 2 minutes
+      # trigger=CronTrigger(minute="*/2"),  # Every 2 minutes
       id="refresh_live_scores",  # The `id` assigned to each job MUST be unique
       max_instances=1,
       replace_existing=True,
