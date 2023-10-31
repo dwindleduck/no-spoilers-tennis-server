@@ -54,3 +54,11 @@ class SignOut(generics.DestroyAPIView):
         request.user.delete_token()
         logout(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+
+# view to check if a token is valid
+
+class IsValid(generics.RetrieveAPIView):
+    def get(self, request):
+        print("checking if user is valid")
