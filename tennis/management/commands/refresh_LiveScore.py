@@ -1,3 +1,7 @@
+# Currently Unused
+
+# For automating LiveScore Requests
+
 # Adapted from https://pypi.org/project/django-apscheduler/
 
 from ...LiveScore_Requests import list_by_date
@@ -34,19 +38,26 @@ def refresh_live_scores():
     # 6 more single day calls every 3 hours
     # 16 total API calls per day
     
-    if hour == "00" or hour == "12":
-        # loop to call previous 1 days through next 3 days
-      call_list = [now - timedelta(days=x) for x in range(-3, 2)]
-      for date in call_list:
-          formattedDate = date.strftime("%Y%m%d")
-          print(formattedDate)
-          # LiveScore_Request
-          list_by_date(formattedDate)
-    else:
-        print(day)
+    # if hour == "00" or hour == "12":
+    #     # loop to call previous 1 days through next 3 days
+    #   call_list = [now - timedelta(days=x) for x in range(-3, 2)]
+    #   for date in call_list:
+    #       formattedDate = date.strftime("%Y%m%d")
+    #       print(formattedDate)
+    #       # LiveScore_Request
+    #       list_by_date(formattedDate)
+    # else:
+    #     print(day)
+    #     # LiveScore_Request
+    #     list_by_date(day)
+
+    call_list = [now - timedelta(days=x) for x in range(-3, 2)]
+    for date in call_list:
+        formattedDate = date.strftime("%Y%m%d")
+        print(formattedDate)
         # LiveScore_Request
-        list_by_date(day)
-       
+        list_by_date(formattedDate)
+
     print("End of scheduled API call")    
         
  

@@ -1,3 +1,5 @@
 .env
 
 no_spoilers_auth/settings/dev.py
+
+.DS_Store
