@@ -137,23 +137,9 @@ def list_by_date(date_string):
     # use response data to update the stored match data
     update_stored(response.json())
     
+
+    
+
     print("Made LiveScore Request for " + date_string)
 
     return JsonResponse(response.json(), safe=False)
-
-
-
-
-
-
-
-
-# write a management command to loop specified dates and call list_by_date
-
-
-
-
-# set a schedule for single calls to update most recent data
-
-
-

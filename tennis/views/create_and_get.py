@@ -32,7 +32,7 @@ def create_and_get_cards(request, date):
     day_min = make_aware(datetime.combine(formated_date, datetime.today().time().min))
     day_max = make_aware(datetime.combine(formated_date, datetime.today().time().max))
 
-    # this returns an array of match_ids
+    # this returns a list of match_ids
     matches = Match.objects.filter(date_time__range=(day_min, day_max))
     
     # check one match for if it was last updated more than three hours ago
@@ -59,14 +59,15 @@ def create_and_get_cards(request, date):
     # and it updated more than three hours ago
     if inRange and needsUpdating:
         # refresh LiveScore_Request
-        list_by_date(formated_date)
+        list_by_date(selectedDate) # list_by_date(formated_date)
         # and .filter() matches again
         matches = Match.objects.filter(date_time__range=(day_min, day_max))
     
 
 
 
-
+    # Now we have a list of Match objects,
+    # use it to find/make WatchedMatchCard objects
 
     # for each match
     for match in matches:

@@ -1,3 +1,7 @@
+# Currently Unused
+
+# For automating LiveScore Requests
+
 # Adapted from https://pypi.org/project/django-apscheduler/
 
 from ...LiveScore_Requests import list_by_date
@@ -86,9 +90,9 @@ class Command(BaseCommand):
 
     scheduler.add_job(
       refresh_live_scores,
-      # trigger=CronTrigger(hour="*/3"),  # Every 3 hours
+      trigger=CronTrigger(hour="*/3"),  # Every 3 hours
       # trigger=CronTrigger(second="*/10"),  # Every 10 seconds
-      trigger=CronTrigger(minute="*/2"),  # Every 2 minutes
+      # trigger=CronTrigger(minute="*/2"),  # Every 2 minutes
       id="refresh_live_scores",  # The `id` assigned to each job MUST be unique
       max_instances=1,
       replace_existing=True,
