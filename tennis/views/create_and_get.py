@@ -65,8 +65,8 @@ def create_and_get_cards(request, date):
     
 
 
-
-    # Now we have a list of Match objects,
+    # ############################################## 
+    # Now we have a list of Match objects (matches),
     # use it to find/make WatchedMatchCard objects
 
     # for each match
@@ -104,8 +104,3 @@ def create_and_get_cards(request, date):
     # return all watch cards for this date
     serializer = WatchedMatchReadSerializer(watched_matches, many=True)
     return Response(serializer.data)
-
-
-
-
-
